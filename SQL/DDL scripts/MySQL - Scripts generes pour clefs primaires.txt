@@ -1,0 +1,39 @@
+Ici les tables sont créés avec l'outil d'imports des données de MySQL
+Les clés primaires ont aussi été modifiées directement dans le "Workbench"
+
+Ci-dessous les Requetes DDL equivalentes
+
+
+***
+
+ALTER TABLE `pj3`.`dispo_alim` 
+CHANGE COLUMN `ANNEE` `ANNEE` INT(11) NOT NULL ,
+CHANGE COLUMN `CPAYS` `CPAYS` INT(11) NOT NULL ,
+CHANGE COLUMN `CPROD` `CPROD` INT(11) NOT NULL ,
+ADD PRIMARY KEY (`ANNEE`, `CPAYS`, `CPROD`);
+;
+
+***
+
+ALTER TABLE `pj3`.`equilibre_prod` 
+CHANGE COLUMN `ANNEE` `ANNEE` INT(11) NOT NULL ,
+CHANGE COLUMN `CPAYS` `CPAYS` INT(11) NOT NULL ,
+CHANGE COLUMN `CPROD` `CPROD` INT(11) NOT NULL ,
+ADD PRIMARY KEY (`ANNEE`, `CPAYS`, `CPROD`);
+;
+
+***
+
+ALTER TABLE `pj3`.`population` 
+CHANGE COLUMN `ANNEE` `ANNEE` INT(11) NOT NULL FIRST,
+CHANGE COLUMN `CPAYS` `CPAYS` INT(11) NOT NULL ,
+ADD PRIMARY KEY (`ANNEE`, `CPAYS`);
+;
+
+***
+
+ALTER TABLE `pj3`.`sous_nutrition` 
+CHANGE COLUMN `ANNEE` `ANNEE` INT(11) NOT NULL ,
+CHANGE COLUMN `CPAYS` `CPAYS` INT(11) NOT NULL ,
+ADD PRIMARY KEY (`ANNEE`, `CPAYS`);
+;

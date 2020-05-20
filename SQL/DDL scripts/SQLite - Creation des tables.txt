@@ -1,0 +1,56 @@
+PJ3 - Creation des tables (pour SQLite Studio)
+
+///// dispo_alim ////
+
+CREATE TABLE dispo_alim (
+    annee               INT(5) NOT NULL, 
+    code_pays           INT(3) NOT NULL, 
+    pays                TEXT,
+    code_produit        INT(5) NOT NULL,
+    produit             TEXT,
+    origin              TEXT,
+    dispo_alim_tonnes   REAL,
+    dispo_alim_kcal_p_j REAL,
+    dispo_prot          REAL,
+    dispo_mat_gr        REAL,
+    PRIMARY KEY (annee,code_pays,code_produit) 
+);
+
+///// equilibre_prod ////
+
+CREATE TABLE equilibre_prod (
+    annee               INT(5) NOT NULL, 
+    code_pays           INT(3) NOT NULL, 
+    pays                TEXT,
+    code_produit        INT(5) NOT NULL,
+    produit             TEXT,
+    origin              TEXT,
+    dispo_int           REAL,
+    alim_ani            REAL,
+    semences            REAL,
+    pertes              REAL,
+    transfo             REAL,
+    nourriture          REAL,
+    autres_utilisations REAL,
+    PRIMARY KEY (annee,code_pays,code_produit) 
+);
+
+///// population ////
+
+CREATE TABLE population (
+    annee        INT(5) NOT NULL, 
+    code_pays    INT(3) NOT NULL, 
+    pays         TEXT,
+    population   NUM(15),
+    PRIMARY KEY (annee,code_pays) 
+);
+
+///// sous_nutrition ////
+
+CREATE TABLE sous_nutrition (
+    annee          INT(5) NOT NULL, 
+    code_pays      INT(3) NOT NULL, 
+    pays           TEXT,
+    nb_personnes   NUM(15),
+    PRIMARY KEY (annee,code_pays) 
+);
