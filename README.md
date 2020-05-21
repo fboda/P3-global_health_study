@@ -1,37 +1,19 @@
-## Formation OpenClassRooms   -   Parcours DATA ANALYST
+<hr style="height: 4px; color: #839D2D; width: 100%; ">
 
-You can use the [editor on GitHub](https://github.com/fboda/P3-global_health_study/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+# <font color='#61210B'>Formation OpenClassRooms   -   Parcours DATA ANALYST</font>
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+<hr style="height: 2px; color: #839D2D; width: 100%; ">
 
-### Markdown
+## <font color='#38610B'>Projet III  - Réalisez une etude de santé publique</font>
+### Réaliser une étude de grande ampleur sur le thème de la sous-nutrition dans le monde.
+Les données sont issues du site de la FAO (<http://www.fao.org/faostat/fr/#data>).  
+Voici les critères de téléchargement ainsi que les DataFrames pandas contenant ces tables/fichiers :  
+* <font color='#8A0808'>DataFrame <strong>ani</strong></font> : Bilan Alimentaire Produits Animaliers (**Pays** = tous, **Eléments** = tous, **Année** = 2013, **Groupe Produits** = Produits Animaux(liste) )
+* <font color='#8A0808'>DataFrame <strong>veg</strong></font> : Bilan Alimentaire Produits Vegetaux (**Pays** = tous, **Eléments** = tous, **Année** = 2013, **Groupe Produits** = Produits Végétaux(liste) )
+* <font color='#8A0808'>DataFrame <strong>pop</strong></font> : Bilan Alimentaire Produits Vegetaux (**Pays** = tous, **Eléments** = population totale, **Année** = 2013, **Produits** = Population )
+* <font color='#8A0808'>DataFrame <strong>ssn</strong></font> : Sous-Nutrition en Nb.personnes/Pays (**Pays** = tous, **Eléments** = population totale, **Année** = 2013-2016, **Produits** = Population )
+* <font color='#8A0808'>DataFrame <strong>cer</strong></font> : Bilan Produits Type "cérèales" (**Pays** = Monde, **Eléments** = tous, **Année** = 2013, **Groupe Produits** = Cérèales-Excl bière>(liste) )
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/fboda/P3-global_health_study/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+**<font color='#38610B'>- Date : 18 Dec 2018</font>**  
+Auteur : Frédéric Boissy
+<hr style="height: 4px; color: #839D2D; width: 100%; ">
