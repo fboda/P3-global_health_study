@@ -1,11 +1,33 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# -----------------------------------
-#     ENVIRONNEMENT - IMPORTS, etc...
-# -----------------------------------
-# -*- coding: utf8 -*-
+# <hr style="height: 4px; color: #839D2D; width: 100%; ">
+# 
+# # <font color='#61210B'>Formation OpenClassRooms   -   Parcours DATA ANALYST</font>
+# 
+# <hr style="height: 2px; color: #839D2D; width: 100%; ">
+# 
+# ## <font color='#38610B'>Projet III  - Réalisez une etude de santé publique</font>
+# ### Réaliser une étude de grande ampleur sur le thème de la sous-nutrition dans le monde.
+# Les données sont issues du site de la FAO (<http://www.fao.org/faostat/fr/#data>).  
+# Voici les critères de téléchargement ainsi que les DataFrames pandas contenant ces tables/fichiers :  
+# * <font color='#8A0808'>DataFrame <strong>ani</strong></font> : Bilan Alimentaire Produits Animaliers (**Pays** = tous, **Eléments** = tous, **Année** = 2013, **Groupe Produits** = Produits Animaux(liste) )
+# * <font color='#8A0808'>DataFrame <strong>veg</strong></font> : Bilan Alimentaire Produits Vegetaux (**Pays** = tous, **Eléments** = tous, **Année** = 2013, **Groupe Produits** = Produits Végétaux(liste) )
+# * <font color='#8A0808'>DataFrame <strong>pop</strong></font> : Bilan Alimentaire Produits Vegetaux (**Pays** = tous, **Eléments** = population totale, **Année** = 2013, **Produits** = Population )
+# * <font color='#8A0808'>DataFrame <strong>ssn</strong></font> : Sous-Nutrition en Nb.personnes/Pays (**Pays** = tous, **Eléments** = population totale, **Année** = 2013-2016, **Produits** = Population )
+# * <font color='#8A0808'>DataFrame <strong>cer</strong></font> : Bilan Produits Type "cérèales" (**Pays** = Monde, **Eléments** = tous, **Année** = 2013, **Groupe Produits** = Cérèales-Excl bière>(liste) )
+# 
+# **<font color='#38610B'>- Date : 18 Dec 2018</font>**  
+# Auteur : Frédéric Boissy
+# <hr style="height: 4px; color: #839D2D; width: 100%; ">
+# 
 
+# #####   <font color='#013ADF'>ENVIRONNEMENT DE TRAVAIL :</font> Définition - Initialisation
+
+# In[1]:
+
+
+# -*- coding: utf8 -*-
 import numpy as np
 import pandas as pd
 pd.options.display.float_format = '{:,.2f}'.format   # Nombres avec sepa milliers "," et 2décimales après "."
@@ -16,6 +38,10 @@ from IPython.display import display, Markdown, HTML  # pour gérer un affichage 
 import time   # Librairie temps pour calculs durée par exemple
 trt_start_time = time.time()
 
+
+# In[2]:
+
+
 # Pour executer des requetes SQL de verification sur des DF
 from pandasql import sqldf
 execsql = lambda q: sqldf(q, globals())   
@@ -25,8 +51,12 @@ execsql = lambda q: sqldf(q, globals())
 
 
 # #####   <font color='#013ADF'>REPERTOIRE DE TRAVAIL :</font> (du Projet)
-# Par defaut on utilisera celui dans lequel se trouve ce fichier jupyter
-# %cd D:/DATA_ANALYST/WORK/PJ3
+# Par defaut on utilisera celui dans lequel se trouve ce fichier jupyter - Puis on spécifie le dossier DATA
+
+# In[3]:
+
+
+get_ipython().run_line_magic('cd', 'DATA')
 
 
 # #####   <font color='#013ADF'>CHARGEMENT DES TABLES de la FAO :</font> dans des Dataframes "Pandas"
@@ -34,11 +64,11 @@ execsql = lambda q: sqldf(q, globals())
 # In[4]:
 
 
-ani = pd.read_csv("DATA/PJ3-Bilan_Alim_Animaux.csv")
-veg = pd.read_csv("DATA/PJ3-Bilan_Alim_Vegetaux.csv")
-pop = pd.read_csv("DATA/PJ3-Population_par_Pays.csv")
-ssn = pd.read_csv("DATA/PJ3-Sous_Alimentation_par_Pays(2013-2016).csv")
-cer = pd.read_csv("DATA/PJ3-Produits_Cerealiers_par_Pays.csv")
+ani = pd.read_csv("PJ3-Bilan_Alim_Animaux.zip")
+veg = pd.read_csv("PJ3-Bilan_Alim_Vegetaux.zip")
+pop = pd.read_csv("PJ3-Population_par_Pays.csv")
+ssn = pd.read_csv("PJ3-Sous_Alimentation_par_Pays(2013-2016).csv")
+cer = pd.read_csv("PJ3-Produits_Cerealiers_par_Pays.csv")
 
 
 # #####   <font color='#013ADF'>MISE EN FORME DES DATAFRAMES POUR LE PROJET - </font>  Colonnes : nouveaux noms, suppression colonnes inutiles
@@ -379,6 +409,12 @@ q5t.sort_values(['Taux_Prot(%)'], ascending=[False])[['CPROD', 'PROD', 'RATIO(kc
 # In[33]:
 
 
+get_ipython().run_line_magic('cd', '..')
+
+
+# In[34]:
+
+
 writer = pd.ExcelWriter("OUTFILES/PJ3_Ratios.xlsx")
 q4r.to_excel(writer,'Ratio')
 q4t.to_excel(writer,'Taux_Prot')
@@ -389,7 +425,7 @@ writer.save()
 
 # #####   <font color='#61210B'> /// Export du dataframe gen dans un fichier Excel pour contrôle futurs/// </font> Nom du fichier = PJ3_Bilan_Alim_gen_out.xlsx
 
-# In[34]:
+# In[35]:
 
 
 writer = pd.ExcelWriter("OUTFILES/PJ3_Bilan_Alim_gen_out.xlsx")
@@ -423,7 +459,7 @@ writer.save()
 # - Calcul par pays/produit de QT_DI_VEG_KCAL2 (en kcal/jour)
 #       QT_DI_VEG_KCAL2 =  (QT_DISPINT  *  RATIO(kcal/kg) * 1'000'000  )  /   (VALP*365)
 
-# In[35]:
+# In[36]:
 
 
 q6 = gen[['PAYS', 'VALP', 'PROD', 'ORIG', 'QT_DISPINT', 'RATIO(kcal/kg)', 'Taux_Prot(%)']].copy()
@@ -441,7 +477,7 @@ q6.head()
 # 
 # - DI_VEG(kcal/p/j) = Sum(QT_DI_VEG_KCAL1)* 1'000'000 /( 365 * pop_monde )  
 
-# In[36]:
+# In[37]:
 
 
 DI_VEG_kcal_p_j = q6['QT_DI_VEG_KCAL1'].sum()*1000000 / (365*pop_monde)
@@ -475,7 +511,7 @@ Markdown('<strong>{}</strong>{}{}'.format(parm1, round(DI_VEG_kcal_p_j, 3), " (K
 # 
 # 
 
-# In[37]:
+# In[38]:
 
 
 q7 = gen[['PAYS', 'VALP', 'PROD', 'ORIG', 'QT_DISPINT', 'RATIO(kcal/kg)', 'Taux_Prot(%)']].copy()
@@ -492,7 +528,7 @@ q7.head()
 # #####   <font color='#61210B'>Formule Dispo intérieure annuelle mondiale / personne (en gr Protéines) :
 # - DI_VEG(prot/p/j) = ∑(QT_DI_VEG_PROT1)* 1'000'000 /( 365 * pop_monde )
 
-# In[38]:
+# In[39]:
 
 
 DI_VEG_prot_p_j = q7['QT_DI_VEG_PROT1'].sum()*1000000 / (365*pop_monde)
@@ -505,14 +541,14 @@ Markdown('<strong>{}</strong>{}{}'.format(parm1, round(DI_VEG_prot_p_j, 3), " (g
 # - Énergie 	2 000 kcal  
 # - Protéines 	50 g
 
-# In[39]:
+# In[40]:
 
 
 var_wiki_nrj = 2000     # Variable - valeur wiki (en kcal) des besoins journalier d'un être humain
 var_wiki_prot = 50      # Variable - valeur wiki (en gr protéines) des besoins journalier d'un être humain
 
 
-# In[40]:
+# In[41]:
 
 
 xcal = (DI_VEG_kcal_p_j*pop_monde)*100/(pop_monde*var_wiki_nrj)
@@ -521,7 +557,7 @@ hcal = (xcal/100) * pop_monde
 hprot = (xprot/100) * pop_monde
 
 
-# In[41]:
+# In[42]:
 
 
 display(HTML('<h3>Disponibilité Intérieure Mondiale de végétaux en Kcal</h3>'))
@@ -532,7 +568,7 @@ parm4 = " humains"
 Markdown('<strong>{}</strong>{}<strong>{}</strong>{}'.format(parm1, parm2, parm3, parm4))
 
 
-# In[42]:
+# In[43]:
 
 
 display(HTML('<h3>Disponibilité Intérieure Mondiale de végétaux en Protéines</h3>'))
@@ -553,7 +589,7 @@ Markdown('<strong>{}</strong>{}<strong>{}</strong>{}'.format(parm1, parm2, parm3
 
 # #####   <font color='#61210B'>Calculs en kcal
 
-# In[43]:
+# In[44]:
 
 
 q8 = gen[['PAYS', 'VALP', 'PROD', 'ORIG', 'QT_NOURRIT', 'QT_ALIMANI', 'QT_PERTES', 'RATIO(kcal/kg)', 
@@ -576,7 +612,7 @@ q8.head()
 
 # #####   <font color='#61210B'>Calculs en gr de Protéines
 
-# In[44]:
+# In[45]:
 
 
 q8 = gen[['PAYS', 'VALP', 'PROD', 'ORIG', 'QT_NOURRIT', 'QT_ALIMANI', 'QT_PERTES', 'RATIO(kcal/kg)', 
@@ -596,7 +632,7 @@ DA_VEG_prot_p_j = q8['QT_DA_VEG_PROT'].sum()*1000000 / (365*pop_monde)
 q8.head()
 
 
-# In[45]:
+# In[46]:
 
 
 display(HTML('<h4>Disponibilité Alimentaire Mondiale de végétaux + Nourriture Animaux + Pertes</h4>'))
@@ -609,7 +645,7 @@ Markdown('{}<br/>{}'.format(parm1, parm2))
 # - Énergie 	2 000 kcal  
 # - Protéines 	50 g
 
-# In[46]:
+# In[47]:
 
 
 xcal = (DA_VEG_kcal_p_j*pop_monde)*100/(pop_monde*var_wiki_nrj)
@@ -618,7 +654,7 @@ hcal = (xcal/100) * pop_monde
 hprot = (xprot/100) * pop_monde
 
 
-# In[47]:
+# In[48]:
 
 
 display(HTML('<h3>Disponibilité Alimentaire Mondiale de végétaux + Nourriture Animaux + Pertes en Kcal</h3>'))
@@ -630,7 +666,7 @@ parm5 = " humains"
 Markdown('{}<strong>{}</strong>{}<strong>{}</strong>{}'.format(parm1, parm2, parm3, parm4,parm5))
 
 
-# In[48]:
+# In[49]:
 
 
 display(HTML('<h3>Disponibilité Alimentaire Mondiale de végétaux + Nourriture Animaux + Pertes en Protéines</h3>'))
@@ -655,7 +691,7 @@ Markdown('{}<strong>{}</strong>{}<strong>{}</strong>{}'.format(parm1, parm2, par
 # 
 # 
 
-# In[49]:
+# In[50]:
 
 
 q9 = gen[['CPAYS', 'PAYS', 'CPROD', 'PROD', 'ORIG', 'QT_DISPALI_KCAL', 'QT_DISPROT']].copy()
@@ -664,7 +700,7 @@ q9.head()
 
 # #####   <font color='#61210B'>On regroupe par pays, et on fait la somme des kcal et protéines
 
-# In[50]:
+# In[51]:
 
 
 q9 = q9.groupby(['CPAYS', 'PAYS']).sum().reset_index()
@@ -673,7 +709,7 @@ q9.head()
 
 # #####   <font color='#61210B'>On peut maintenant faire une moyenne mondiake des kcal et proteines et la comparer à notre base
 
-# In[51]:
+# In[52]:
 
 
 DA_KCAL_p_j = q9['QT_DISPALI_KCAL'].mean()
@@ -682,7 +718,7 @@ print("Dispo_Alimentaire_Mondiale(kcal/p/j) = ", round(DA_KCAL_p_j,3))
 print("Dispo_Alimentaire_Mondiale(prot/p/j) = ", round(DA_PROT_p_j,3))
 
 
-# In[52]:
+# In[53]:
 
 
 parm1 = "Disponibilité Alimentaire Mondiale exprimée en Kcal: "
@@ -696,7 +732,7 @@ Markdown('{}<strong>{}</strong>{}<br/>{}<strong>{}</strong>{}'.format
 # - Énergie 	2 000 kcal  
 # - Protéines 	50 g
 
-# In[53]:
+# In[54]:
 
 
 xcal = (DA_KCAL_p_j*pop_monde)*100/(pop_monde*var_wiki_nrj)
@@ -705,7 +741,7 @@ hcal = (xcal/100) * pop_monde
 hprot = (xprot/100) * pop_monde
 
 
-# In[54]:
+# In[55]:
 
 
 display(HTML('<h3>Disponibilité Alimentaire Mondiale en Kcal</h3>'))
@@ -717,7 +753,7 @@ parm5 = " humains"
 Markdown('{}<strong>{}</strong>{}<strong>{}</strong>{}'.format(parm1, parm2, parm3, parm4,parm5))
 
 
-# In[55]:
+# In[56]:
 
 
 display(HTML('<h3>Disponibilité Alimentaire Mondiale en Protéines</h3>'))
@@ -740,7 +776,7 @@ Markdown('{}<strong>{}</strong>{}<strong>{}</strong>{}'.format(parm1, parm2, par
 # - Remplacer les NAN par '0' sur colonne numérique
 # - Exclure la chine (code=351) car doublons avec autres lignes "chines" (voir question 1)
 
-# In[56]:
+# In[57]:
 
 
 q10 = ssn[['ANNEE', 'CZONE', 'ZONE', 'VAL', 'UNIT']].copy()
@@ -755,7 +791,7 @@ q10.head()
 
 # #####   <font color='#61210B'>Resultat (%) population mondiale sous-alimentée
 
-# In[57]:
+# In[58]:
 
 
 TOT_POP_SSN = q10['NB_PERS_SSN'].sum()
@@ -764,7 +800,7 @@ print("Nb de personnes sous alimentée en 2013 : ", '{:10,.0f}'.format(TOT_POP_S
       "  - Cela représente ", round(prop,2), "(%) de la population mondiale")
 
 
-# In[58]:
+# In[59]:
 
 
 display(HTML('<h3>Nombre de Personnes sous-alimentées en 2013</h3>'))
@@ -777,7 +813,7 @@ Markdown('<strong>{}</strong>{}<strong>{}</strong>{}'.format(parm1, parm2, parm3
 
 # #####   <font color='#61210B'> /// Export de la liste des pays en sous-nutrition dans un dataframe pour les questions Q12-13-14  /// </font> Nom du DF = ssn1
 
-# In[59]:
+# In[60]:
 
 
 ssn1 = q10[q10['NB_PERS_SSN']!=0].copy()
@@ -785,7 +821,7 @@ ssn1 = q10[q10['NB_PERS_SSN']!=0].copy()
 
 # #####   <font color='#61210B'> /// Export du dataframe q10 dans un fichier Excel pour contrôle futurs/// </font> Nom du fichier = PJ3_Q10-Sous_Nutrition_out.xlsx
 
-# In[60]:
+# In[61]:
 
 
 writer = pd.ExcelWriter("OUTFILES/PJ3_Q10-Sous_Nutrition_out.xlsx")
@@ -800,7 +836,7 @@ writer.save()
 # - Constitution de la liste de produits "type céréale" selon la FAO  
 # - Calcul de la proportion sur ce périmètre
 
-# In[61]:
+# In[62]:
 
 
 cer.head()
@@ -809,7 +845,7 @@ cer.head()
 # #####   <font color='#61210B'>Recherche sur sur dataframe "cer"
 # - Liste des codes produits de type Céréales
 
-# In[62]:
+# In[63]:
 
 
 q11sel = cer['CPROD'].unique()
@@ -822,7 +858,7 @@ q11sel
 # - On remplace les valeurs NAN par 0 pour ne pas fausser les calculs  
 # - On fait une somme Totale des céréales destinées à l'alimentation  (QT_CER_ALIM)
 
-# In[63]:
+# In[64]:
 
 
 tp11 = gen[['PAYS', 'VALP', 'CPROD', 'PROD', 'ORIG', 'QT_NOURRIT', 'QT_ALIMANI']].copy()
@@ -841,7 +877,7 @@ tp11.head()
 # - 2°) Calcul Proportion avec (TOT_ALIMANI) / (TOT_CER_ALIM)
 # 
 
-# In[64]:
+# In[65]:
 
 
 q11 = tp11[tp11['CPROD'].isin(q11sel)]
@@ -850,7 +886,7 @@ q11.head()
 
 # #####   <font color='#61210B'>Calcul de la proportion (%)
 
-# In[65]:
+# In[66]:
 
 
 TOT_NOURRIT = q11['QT_NOURRIT'].sum()
@@ -859,7 +895,7 @@ TOT_CER_ALIM = q11['QT_CER_ALIM'].sum()
 PROP = TOT_ALIMANI * 100 / TOT_CER_ALIM
 
 
-# In[66]:
+# In[67]:
 
 
 display(HTML("<h3>La proportion de céréales destinées à l'alimentation animale en 2013 est :</h3>"))
@@ -890,7 +926,7 @@ Markdown('<strong>{}</strong>{}<strong>{}</strong>{}'.format(parm1, parm2, round
 # - Droite >> Données Bilans Alimentaires      - Dataframe **gen**    
 #     
 
-# In[67]:
+# In[68]:
 
 
 # Renommer les colonnes pour avoir les mêmes clefs avant jointure
@@ -899,7 +935,7 @@ ssn1.columns = ["ANNEE", "CPAYS", "PAYS", "NBPERS"]
 ssn1[['ANNEE']] = ssn1[['ANNEE']].astype(int)
 
 
-# In[68]:
+# In[69]:
 
 
 tp12 = gen[['CPAYS', 'PAYS', 'CPROD', 'PROD', 'QT_IMPORT', 'QT_EXPORT', 
@@ -919,7 +955,7 @@ tp.head()
 # - Tri décroissant des 15 premières lignes
 #     
 
-# In[69]:
+# In[70]:
 
 
 s15 = tp.groupby(['CPROD', 'PROD'])['QT_EXPORT'].sum().reset_index()
@@ -931,7 +967,7 @@ s15
 # #####   <font color='#61210B'>Pour ces 15 produits sélectionnés, choisir les 200 plus grandes importations
 # - 1 importation = une quantité d'un produit donné importée par un pays donné
 
-# In[70]:
+# In[71]:
 
 
 s200 = pd.merge(s15, tp, how="left")
@@ -945,7 +981,7 @@ s200.tail()
 # -   le ratio entre la quantité destinée à la nourriture animale et la quantité destinée à la nourriture (animale + humaine)
 # 
 
-# In[71]:
+# In[72]:
 
 
 q12 = s200.groupby(['CPROD', 'PROD'])['QT_IMPORT', 'QT_EXPORT', 'QT_DISPINT', 'QT_AUTRES', 
@@ -961,7 +997,7 @@ q12.head()
 # - #### Ratio 1 = entre la quantité destinés aux "Autres utilisations" (Other uses) et la disponibilité intérieure.   
 # - #### Ratio 2 = entre la quantité destinée à la nourriture animale et la quantité destinée à la nourriture (animale + humaine).
 
-# In[72]:
+# In[73]:
 
 
 q12['Ratio1(%)'] = q12['TOT_AUTRES'] *100 / q12['TOT_DISPINT']
@@ -970,7 +1006,7 @@ q12
 #q12[(q12['CPROD'] == 2577)].head()
 
 
-# In[73]:
+# In[74]:
 
 
 display(HTML("<h3>Les 3 Produits ayant le Ratio1(%) le plus élevé sont :</h3>"))
@@ -980,7 +1016,7 @@ q12.sort_values(['Ratio1(%)'], ascending=[False])[['PROD', 'Ratio1(%)']].head(3)
 
 # #####   <font color='#61210B'>Les 3 Produits ayant le Ratio2(%) le plus élevé sont :
 
-# In[74]:
+# In[75]:
 
 
 display(HTML("<h3>Les 3 Produits ayant le Ratio2(%) le plus élevé sont :</h3>"))
@@ -994,7 +1030,7 @@ q12.sort_values(['Ratio2(%)'], ascending=[False])[['PROD', 'Ratio2(%)']].head(3)
 
 # - Selection à partir du DataFrame général des lignes pour le Code Pays "Etats-Unis" (231)  
 
-# In[75]:
+# In[76]:
 
 
 tp13 = gen[(gen['CPAYS'] == 231)][['CPAYS', 'PAYS', 'CPROD', 'PROD', 'QT_ALIMANI']].copy()
@@ -1003,7 +1039,7 @@ tp13.head()
 
 # - Jointure ou  Filtre sur la liste de produits de type "céréales" q11sel  (voir Question 11)
 
-# In[76]:
+# In[77]:
 
 
 tp13['QT_ALIMANI'] = tp13['QT_ALIMANI'].fillna(0)
@@ -1012,7 +1048,7 @@ tot_prod_animali_usa = q13['QT_ALIMANI'].sum()
 eco = 0.1 * (tot_prod_animali_usa * 1000)
 
 
-# In[77]:
+# In[78]:
 
 
 display(HTML("<h3>En 2013, si les Etats-Unis avaient baissé leur production de produits animaliers de 10%,</h3>"))
@@ -1030,7 +1066,7 @@ Markdown('<strong>{}</strong>{}'.format(parm1,parm2))
 
 # - Selection à partir du DataFrame général des lignes pour le Code Pays "Thailande" (216)  
 
-# In[78]:
+# In[79]:
 
 
 q14 = gen[(gen['CPAYS'] == 216)][['CPAYS', 'PAYS', 'VALP', 'CPROD', 'PROD', 'QT_EXPORT', 'QT_PRODUCT']].copy()
@@ -1040,7 +1076,7 @@ q14.head()
 
 # - Calcul du Total des quantités exportées par la Thailande en tonnes (2013)
 
-# In[79]:
+# In[80]:
 
 
 QT_TOT_EXP_THAI = q14['QT_EXPORT'].sum()
@@ -1052,20 +1088,20 @@ Markdown('<strong><u>{}</u><br/>{}</strong>{}'.format(parm1,parm2,parm3))
 
 # - Recherche de la quantité de manioc exportée par la Thailande en tonnes (2013)  ---  Code Produit [2532]
 
-# In[80]:
+# In[81]:
 
 
 QT_MANIOC_EXP_THAI = q14[(q14['CPROD'] == 2532)]['QT_EXPORT'].mean()
 TX_MANIOC_EXP = QT_MANIOC_EXP_THAI *100 / QT_TOT_EXP_THAI
 
 
-# In[81]:
+# In[82]:
 
 
 TX_MANIOC_PRD = q14[(q14['CPROD'] == 2532)]['QT_EXPORT'].max() / q14[(q14['CPROD'] == 2532)]['QT_PRODUCT'].max()
 
 
-# In[82]:
+# In[83]:
 
 
 display(HTML("<h3><u>En 2013, la Thaïlande a exporté</u></h3>"))
@@ -1083,7 +1119,7 @@ Markdown('<strong>{}</strong>{}{}<strong>{}</strong>{}<br/>{}<strong>{}</strong>
 
 # - Recherche de la population de la Thailande dans le dataframe pop (2013)  ---  Code Pays [216]
 
-# In[83]:
+# In[84]:
 
 
 POP_THAI = pop[(pop['CPAYS'] == 216)]['VALP'].max()
@@ -1091,7 +1127,7 @@ POP_THAI = pop[(pop['CPAYS'] == 216)]['VALP'].max()
 
 # - Recherche du nombre de personne sous-alimentée en Thailande dans le dataframe des pays en sous-nutrition "ssn1" (exporté à la question 10)
 
-# In[84]:
+# In[85]:
 
 
 NBP_SSN_THAI = ssn1[(ssn1['CPAYS'] == 216)]['NBPERS'].max()
@@ -1100,7 +1136,7 @@ TXP_SSN_THAI = NBP_SSN_THAI * 100 / POP_THAI
 
 # #####   <font color='#61210B'>Calcul de la proportion de personnes en sous-nutrition en thailande représente 9.1(%) de la population du pays (2013)
 
-# In[85]:
+# In[86]:
 
 
 print(round(TXP_SSN_THAI,3), "(%), soit environ ", '{:8,.0f}'.format(NBP_SSN_THAI), " thaïlandais")
@@ -1119,7 +1155,7 @@ Markdown('<strong>{}</strong>{}<strong>{}</strong>{}'.format(parm1,parm2,parm3,"
 # - Pour utilisation avec SGBD SQL  :   MySQL ou SQLite3  
 # Ici nous rechargeons des données de la FAOSTAT pour prendre en compte plusieurs années (2012 et la dernière disponible)
 
-# In[86]:
+# In[87]:
 
 
 get_ipython().run_line_magic('cd', 'SQL')
@@ -1128,7 +1164,7 @@ get_ipython().run_line_magic('cd', 'SQL')
 # #####   <font color='#61210B'>Table "population"
 # - Clé primaire proposée :  ANNEE / CPAYS
 
-# In[87]:
+# In[88]:
 
 
 popsql = pd.read_csv("FAOSTAT_pop_2012-2017.csv")
@@ -1149,33 +1185,33 @@ popsql.head()
 # (pays, code_pays, année, produit, code_produit, origin, dispo_alim_tonnes, dispo_alim_kcal_p_j, dispo_prot, dispo_mat_gr)
 # - Clé Primaire proposée : ANNEE / CPAYS / CPROD
 
-# In[88]:
+# In[89]:
 
 
-anisql = pd.read_csv("FAOSTAT_ani_2012-2013.csv")
+anisql = pd.read_csv("FAOSTAT_ani_2012-2013.zip")
 anisql.columns = ["xx", "xx", "CPAYS", "PAYS", "CELEM", "ELEMENT", "CPROD", "PROD", "xx", 
                "ANNEE", "UNIT", "VAL", "xx", "xx"]
 anisql.drop(columns=['xx'], inplace=True)
 anisql["ORIG"] = "animal"
 
 
-# In[89]:
+# In[90]:
 
 
-vegsql = pd.read_csv("FAOSTAT_veg_2012-2013.csv")
+vegsql = pd.read_csv("FAOSTAT_veg_2012-2013.zip")
 vegsql.columns = ["xx", "xx", "CPAYS", "PAYS", "CELEM", "ELEMENT", "CPROD", "PROD", "xx", 
                "ANNEE", "UNIT", "VAL", "xx", "xx"]
 vegsql.drop(columns=['xx'], inplace=True)
 vegsql["ORIG"] = "vegetal"
 
 
-# In[90]:
+# In[91]:
 
 
 tempsql = anisql.append(vegsql)
 
 
-# In[91]:
+# In[92]:
 
 
 gensql = tempsql.pivot_table(
@@ -1188,7 +1224,7 @@ gensql = gensql.reset_index()
 gensql.drop(gensql[gensql.CPAYS == varcp_chine].index, inplace=True)
 
 
-# In[92]:
+# In[93]:
 
 
 cols =  ['ANNEE', 'CPAYS', 'PAYS', 'CPROD', 'PROD', 'ORIG',
@@ -1212,7 +1248,7 @@ q16.head()
 # (pays, code_pays, année, produit, code_produit, dispo_int, alim_ani, semences, pertes, transfo, nourriture, autres_utilisations)
 # - Clé Primaire proposée : ANNEE / CPAYS / CPROD
 
-# In[93]:
+# In[94]:
 
 
 q17 = gensql[['ANNEE', 'CPAYS', 'PAYS', 'CPROD', 'PROD', 'ORIG', 'QT_DISPINT', 'QT_ALIMANI',
@@ -1235,7 +1271,7 @@ q17.head()
 # 
 # - Clé Primaire proposée : ANNEE / CPAYS
 
-# In[94]:
+# In[95]:
 
 
 q18 = ssn[['ANNEE', 'CZONE', 'ZONE', 'VAL', 'UNIT']].copy()
@@ -1251,7 +1287,7 @@ q18.to_csv('sql_sous-nutrition.csv', sep=',', encoding='utf-8', index=False)
 q18.head()
 
 
-# In[95]:
+# In[96]:
 
 
 dureetotale = round(time.time() - trt_start_time, 5)
